@@ -11,21 +11,6 @@ export const dataSource = new Sequelize(
     }
 )
 
-export const Role = dataSource.define(
-    "Role",
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        name: {
-            type: DataTypes.STRING(30),
-            allowNull: false
-        }
-    }
-);
-
 export const User = dataSource.define(
     "User",
     {
@@ -36,12 +21,21 @@ export const User = dataSource.define(
         },
         name: {
             type: DataTypes.STRING(30),
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false       
         }
+    },
+    {
+        timestamps: false
     }
 );
 
@@ -57,6 +51,9 @@ export const Category = dataSource.define(
             type: DataTypes.STRING(30),
             allowNull: false
         }
+    },
+    {
+        timestamps: false
     }
 );
 
@@ -86,6 +83,9 @@ export const Product = dataSource.define(
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
+    },
+    {
+        timestamps: false
     }
 );
 
@@ -96,11 +96,12 @@ export const Sale = dataSource.define(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
-        },
-        date_of_sale: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
         }
+    },
+    {
+        timestamps: true,
+        createdAt: 'date_of_sale',
+        updatedAt: false
     }
 );
 
@@ -133,14 +134,6 @@ Category.hasMany(Product, {
     foreignKey: 'category_id'
 });
 Product.belongsTo(Category);
-
-Role.hasMany(User, {
-    foreignKey: {
-        name: 'role_id',
-        allowNull: false
-    }
-});
-User.belongsTo(Role);
 
 User.hasMany(Sale, {
     foreignKey: {

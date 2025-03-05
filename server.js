@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { dataSource } from './datasource/db/dbConnection.js';
-
-import roleRoutes from './routes/roleRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 
@@ -11,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/roles', roleRoutes);
+app.use('/users', userRoutes);
 
 try {
     await dataSource.authenticate();
