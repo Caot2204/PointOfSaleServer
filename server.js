@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { dataSource } from './datasource/db/dbConnection.js';
 import userRoutes from './routes/userRoutes.js';
+import categoriesRoutes from './routes/categoryRoutes.js';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/users', userRoutes);
+app.use('/categories', categoriesRoutes);
 
 try {
     await dataSource.authenticate();

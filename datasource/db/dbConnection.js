@@ -49,7 +49,8 @@ export const Category = dataSource.define(
         },
         name: {
             type: DataTypes.STRING(30),
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },
     {
