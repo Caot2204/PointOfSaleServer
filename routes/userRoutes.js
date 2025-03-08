@@ -6,7 +6,7 @@ import { verifyIfAdminUser, verifyToken } from '../authentication/authentication
 
 router.post('/login', userController.login);
 
-router.post('/', verifyToken, verifyIfAdminUser, userController.saveUser);
+router.post('/', userController.saveUser);
 router.get('/', verifyToken, verifyIfAdminUser, userController.getAllUsers);
 
 router.route("/:id")

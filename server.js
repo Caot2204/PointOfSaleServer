@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import { dataSource } from './datasource/db/dbConnection.js';
 import userRoutes from './routes/userRoutes.js';
 import categoriesRoutes from './routes/categoryRoutes.js';
+import inventoryRoutes from './routes/inventoryRoutes.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/users', userRoutes);
 app.use('/categories', categoriesRoutes);
+app.use('/inventory', inventoryRoutes);
 
 try {
     await dataSource.authenticate();

@@ -61,10 +61,10 @@ export const Category = dataSource.define(
 export const Product = dataSource.define(
     "Product",
     {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
+        code: {
+            type: DataTypes.STRING(20),
+            primaryKey: true,
+            allowNull: false
         },
         name: {
             type: DataTypes.STRING(100),
@@ -80,7 +80,7 @@ export const Product = dataSource.define(
             defaultValue: 0,
             validate: { min: 0 }
         },
-        is_infinity_stock: {
+        isInfinityStock: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
@@ -117,10 +117,10 @@ export const SalesProducts = dataSource.define(
             }
         },
         product_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(5),
             references: {
                 model: Product,
-                key: 'id'
+                key: 'code'
             }
         },
         units: {
@@ -131,9 +131,7 @@ export const SalesProducts = dataSource.define(
     }
 );
 
-Category.hasMany(Product, {
-    foreignKey: 'category_id'
-});
+Category.hasMany(Product);
 Product.belongsTo(Category);
 
 User.hasMany(Sale, {
