@@ -5,6 +5,7 @@ import { dataSource } from './datasource/db/dbConnection.js';
 import userRoutes from './routes/userRoutes.js';
 import categoriesRoutes from './routes/categoryRoutes.js';
 import inventoryRoutes from './routes/inventoryRoutes.js';
+import saleRoutes from './routes/saleRoutes.js'
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/users', userRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/inventory', inventoryRoutes);
+app.use('/sales', saleRoutes);
 
 try {
     await dataSource.authenticate();

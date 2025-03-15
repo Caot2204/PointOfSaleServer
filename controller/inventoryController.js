@@ -1,4 +1,4 @@
-import productRepositoy from "../datasource/repository/productRepositoy.js";
+import productRepositoy from "../datasource/repository/productRepository.js";
 
 /**
  * Controller for Category routes in the server

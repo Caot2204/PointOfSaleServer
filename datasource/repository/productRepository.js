@@ -11,6 +11,10 @@ class ProductRepository {
 
     async insertProduct(productCode, name, price, stock, isInfinityStock, categoryId) {
         if (this.#validateProductData(productCode, name, price, stock, isInfinityStock, categoryId)) {
+            if (this.getProductByCode(productCode)) {
+                throw Error("A product exists with the recived code");
+            }
+
             const newProduct = await Product.create({
                 code: productCode,
                 name: name,
@@ -81,7 +85,7 @@ class ProductRepository {
         });
 
         if (product) return product;
-        else throw Error('Product not found');     
+        else throw Error('Product not found with ' + productCode + 'code');     
     }
 
     async searchProductsWithName(nameEntered) {
@@ -104,12 +108,13 @@ class ProductRepository {
     }
 
     #validateProductData(productCode, name, price, stock, isInfinityStock, categoryId) {
-        if (!productCode) throw Error("Please send product's code");
-        if (!name) throw Error("Please send product's name");
-        if (!price) throw Error("Please send product's price");
-        if (stock == null) throw Error("Please send product's stock");
-        if (isInfinityStock == null) throw Error("Please indicate if product has infinity stock");
-        if (!categoryId) throw Error("Please send product's category");
+        const FLAG_INVALID_DATA = "Invalidad data, ";
+        if (!productCode) throw Error(FLAG_INVALID_DATA + "please send product's code");
+        if (!name) throw Error(FLAG_INVALID_DATA + "please send product's name");
+        if (!price) throw Error(FLAG_INVALID_DATA + "please send product's price");
+        if (stock == null) throw Error(FLAG_INVALID_DATA + "please send product's stock");
+        if (isInfinityStock == null) throw Error(FLAG_INVALID_DATA + "please indicate if product has infinity stock");
+        if (!categoryId) throw Error(FLAG_INVALID_DATA + "please send product's category");
         return true;
     }
 

@@ -18,7 +18,6 @@ class UserController {
             await userRepository.insertUser(name, password, isAdmin);
             res.status(201).json({ message: "User created" });
         } catch (error) {
-            console.log(error);
             res.status(500).send(error.message);
         }
     }
@@ -65,7 +64,6 @@ class UserController {
             const users = await userRepository.getAllUsers();
             res.status(200).json(users);
         } catch (error) {
-            console.log(error);
             res.status(500).send(error.message);
         }
     }
@@ -82,7 +80,6 @@ class UserController {
             const user = await userRepository.getOneUser(id);
             res.status(200).json(user);
         } catch (error) {
-            console.log(error);
             res.status(500).send(error.message);
         }
     }

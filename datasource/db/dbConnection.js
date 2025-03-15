@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, DATE, Sequelize } from 'sequelize';
 import 'dotenv/config';
 
 export const dataSource = new Sequelize(
@@ -97,54 +97,56 @@ export const Sale = dataSource.define(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
+        },
+        dateOfSale: {
+            type: DataTypes.DATE,
+            allowNull: false
         }
     },
     {
-        timestamps: true,
-        createdAt: 'date_of_sale',
-        updatedAt: false
+        timestamps: false
     }
 );
 
 export const SalesProducts = dataSource.define(
     "SalesProducts",
     {
-        sale_id: {
+        saleId: {
             type: DataTypes.INTEGER,
-            references: {
-                model: Sale,
-                key: 'id'
-            }
+            allowNull: false
         },
-        product_id: {
-            type: DataTypes.STRING(5),
-            references: {
-                model: Product,
-                key: 'code'
-            }
+        productCode: {
+            type: DataTypes.STRING(20),
+            allowNull: false
+        },
+        productName: {
+            type: DataTypes.STRING(100),
+            allowNull: false
+        },
+        currentPrice: {
+            type: DataTypes.DOUBLE,
+            allowNull: false
         },
         units: {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: { min: 1 }
         }
+    },
+    {
+        timestamps: false
     }
 );
 
 Category.hasMany(Product);
 Product.belongsTo(Category);
 
-User.hasMany(Sale, {
-    foreignKey: {
-        name: 'user_id',
-        allowNull: false
-    }
-});
+User.hasMany(Sale);
 Sale.belongsTo(User);
 
-Sale.belongsToMany(Product, { through: SalesProducts });
+//Sale.belongsToMany(Product, { through: SalesProducts });
 
-Product.belongsToMany(Sale, { through: SalesProducts });
+//Product.belongsToMany(Sale, { through: SalesProducts });
 
 await dataSource.sync();
 console.log("Database at time");
