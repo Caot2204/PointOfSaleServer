@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import userController from '../controller/userController.js';
+import userController from './userController.js';
 import { verifyIfAdminUser, verifyToken } from '../authentication/authentication.js';
 
 router.post('/login', userController.login);

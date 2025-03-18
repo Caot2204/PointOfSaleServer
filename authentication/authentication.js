@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import jsonwebtoken from 'jsonwebtoken';
-import userRepository from '../datasource/repository/userRepository.js';
+import userRepository from '../users/userRepository.js';
 
 /**
  * 

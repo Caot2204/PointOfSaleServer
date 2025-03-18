@@ -2,10 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { dataSource } from './datasource/db/dbConnection.js';
-import userRoutes from './routes/userRoutes.js';
-import categoriesRoutes from './routes/categoryRoutes.js';
-import inventoryRoutes from './routes/inventoryRoutes.js';
-import saleRoutes from './routes/saleRoutes.js'
+import userRoutes from './users/userRoutes.js';
+import categoriesRoutes from './categories/categoryRoutes.js';
+import inventoryRoutes from './inventory/inventoryRoutes.js';
+import saleRoutes from './sales/saleRoutes.js'
 
 const app = express();
 

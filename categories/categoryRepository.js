@@ -1,4 +1,4 @@
-import { Category } from "../db/dbConnection.js";
+import { Category } from "../datasource/db/dbConnection.js";
 
 /**
  * Repository for Category entity, responsable of control the datasource operations.

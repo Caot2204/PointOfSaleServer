@@ -1,4 +1,4 @@
-import categoryRepository from "../datasource/repository/categoryRepository.js";
+import categoryRepository from "./categoryRepository.js";
 
 /**
  * Controller for Category routes in the server

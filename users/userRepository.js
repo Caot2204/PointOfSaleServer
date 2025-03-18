@@ -1,4 +1,4 @@
-import { User } from '../db/dbConnection.js';
+import { User } from '../datasource/db/dbConnection.js';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 

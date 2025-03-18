@@ -1,7 +1,7 @@
 import { QueryTypes } from "sequelize";
-import { dataSource, Sale, SalesProducts, User } from "../db/dbConnection.js";
-import productRepository from './productRepository.js';
-import userRepository from './userRepository.js';
+import { dataSource, Sale, SalesProducts, User } from "../datasource/db/dbConnection.js";
+import productRepository from '../inventory/productRepository.js';
+import userRepository from '../users/userRepository.js';
 
 /**
  * Repository for Sale entity, responsable of control the datasource operations.
@@ -58,6 +58,7 @@ class SaleRepository {
     async getSalesPerDay(date) {
         if (this.#validateDateRecived(date, true)) {
             let salesPerDay = [];
+            let totalSaleOfDay = 0.0;
             const salesRegistered = await dataSource.query(
                 'SELECT id FROM sales WHERE DATE(dateOfSale) = :dateToSearch',
                 {
@@ -67,10 +68,16 @@ class SaleRepository {
             );
 
             for (const sale of salesRegistered) {
-                salesPerDay.push(await this.getSaleDetails(sale.id));
+                const saleOfDay = await this.getSaleDetails(sale.id);
+                totalSaleOfDay = totalSaleOfDay + saleOfDay.totalSale;
+                salesPerDay.push(saleOfDay);
             }
 
-            return salesPerDay;            
+            return {
+                day: date,
+                totalSaleOfDay: totalSaleOfDay,
+                salesOfDay: salesPerDay
+            }            
         } else {
             throw Error("The date not has the YYYY-MM-DD pattern");
         }

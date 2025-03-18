@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import inventoryController from '../controller/inventoryController.js';
+import inventoryController from './inventoryController.js';
 import { verifyIfAdminUser, verifyToken } from '../authentication/authentication.js';
 
 router.post('/', verifyToken, verifyIfAdminUser, inventoryController.saveProduct);

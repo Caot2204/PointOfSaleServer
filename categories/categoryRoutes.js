@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import categoryController from "../controller/categoryController.js";
+import categoryController from "./categoryController.js";
 import { verifyIfAdminUser, verifyToken } from '../authentication/authentication.js';
 
 router.post('/', verifyToken, verifyIfAdminUser, categoryController.saveCategory);

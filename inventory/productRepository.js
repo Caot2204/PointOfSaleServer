@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
-import { Category, Product } from "../db/dbConnection.js";
-import categoryRepository from "./categoryRepository.js";
+import { Category, Product } from "../datasource/db/dbConnection.js";
+import categoryRepository from "../categories/categoryRepository.js";
 
 /**
  * Repository for Category entity, responsable of control the datasource operations.

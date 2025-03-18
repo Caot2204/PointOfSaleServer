@@ -1,4 +1,4 @@
-import userRepository from "../datasource/repository/userRepository.js";
+import userRepository from "../users/userRepository.js";
 import { generateToken } from '../authentication/authentication.js';
 import bcrypt from "bcryptjs";
 

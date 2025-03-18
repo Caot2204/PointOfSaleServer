@@ -1,4 +1,4 @@
-import saleRepository from "../datasource/repository/saleRepository.js";
+import saleRepository from "./saleRepository.js";
 
 /**
  * Controller for User routes in the server.
@@ -47,7 +47,6 @@ class SaleController {
             const salesOfDay = await saleRepository.getSalesPerDay(dateToSearch);
             res.status(200).send(salesOfDay);
         } catch (error) {
-            console.log(error);
             res.status(500).send(error.message);
         }
     }
