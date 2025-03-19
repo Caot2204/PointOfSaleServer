@@ -14,7 +14,7 @@ class CategoryRepository {
     }
 
     async updateCategory(id, name) {
-        if (this.#validateCategoryData(id)) {
+        if (this.#validateCategoryData(name)) {
             await Category.update({ name: name }, { where: { id: id } });
         }
     }
