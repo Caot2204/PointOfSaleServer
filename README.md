@@ -8,3 +8,5 @@ The proyect have a technical file that explain it like a component software. The
 Be free to extend and modify this proyect.
 
 Thanks for use this proyect.
+
+The proyect has a .env file, inside, you can modify a database parameters, like type of database manager, database name, password, user, etc.
