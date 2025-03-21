@@ -5,8 +5,10 @@ Is necesary have installed Node.js and a database manager(any supported by Seque
 
 The proyect have a technical file that explain it like a component software. The document is writed in Spanish (i'm sorry), I will work in the English version. All sourcecode is in English.
 
+The proyect has a .env file, inside, you can modify a database parameters, like type of database manager, database name, password, user, etc.
+
+For evit that everyone save a user, you should add the verifyToken and verifyIfAdminUser middlewares to "router.post('/', userController.saveUser)" inside /users/userRoutes.js
+
 Be free to extend and modify this proyect.
 
 Thanks for use this proyect.
-
-The proyect has a .env file, inside, you can modify a database parameters, like type of database manager, database name, password, user, etc.
