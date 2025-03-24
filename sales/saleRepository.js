@@ -22,20 +22,20 @@ class SaleRepository {
             }
 
             try {
-                productsSold.forEach(productSold => {
-                    this.#saveProductInSale(
+                for (const productSold of productsSold) {
+                    const result = await this.#saveProductInSale(
                         sale.id,
                         productSold.code,
                         productSold.name,
                         productSold.price,
                         productSold.units
                     );
-                });
+                    if (result.status == "error") {
+                        throw Error(result.message);
+                    }
+                }
             } catch (error) {
-                await SalesProducts.destroy(
-                    { where: { saleId: sale.id } }
-                );
-                await sale.destroy();
+                this.#deleteSaleData(sale);
                 throw error;
             }
         } else {
@@ -44,7 +44,19 @@ class SaleRepository {
     }
 
     async #saveProductInSale(saleId, code, name, price, units) {
-        if (productRepository.getProductByCode(code)) {
+        const product = await productRepository.getProductByCode(code);
+        if (product) {
+            if (!product.isInfinityStock) {
+                const newStock = product.stock - units;
+                if (newStock < 0) {
+                    return {
+                        status: "error",
+                        message: "The units sold of " + product.name + " exceed its stock"
+                    }
+                }
+                product.set({ stock: newStock });
+                await product.save();
+            }
             await SalesProducts.create({
                 saleId: saleId,
                 productCode: code,
@@ -52,6 +64,7 @@ class SaleRepository {
                 currentPrice: price,
                 units: units
             });
+            return { status: "ok" }
         }
     }
 
@@ -77,7 +90,7 @@ class SaleRepository {
                 day: date,
                 totalSaleOfDay: totalSaleOfDay,
                 salesOfDay: salesPerDay
-            }            
+            }
         } else {
             throw Error("The date not has the YYYY-MM-DD pattern");
         }
@@ -145,6 +158,18 @@ class SaleRepository {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Deletes all products registered of a determinate sale and its data
+     * 
+     * @param {*} sale 
+     */
+    async #deleteSaleData(sale) {
+        await SalesProducts.destroy(
+            { where: { saleId: sale.id } }
+        );
+        await sale.destroy();
     }
 
 }

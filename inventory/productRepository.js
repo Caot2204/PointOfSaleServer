@@ -50,6 +50,13 @@ class ProductRepository {
         }
     }
 
+    async increaseStock(productCode, units) {
+        const product = await this.getProductByCode(productCode);
+        const newStock = product.stock + units;
+        product.set({ stock: newStock });
+        await product.save();
+    }
+
     async deleteProduct(productCode) {
         const product = await this.getProductByCode(productCode);
         product.destroy();

@@ -1,4 +1,4 @@
-import productRepositoy from "./productRepository.js";
+import productRepository from "./productRepository.js";
 
 /**
  * Controller for Category routes in the server
@@ -13,7 +13,7 @@ class InventoryController {
     async saveProduct(req, res) {
         try {
             const { code, name, price, stock, isInfinityStock, categoryId } = req.body;
-            await productRepositoy.insertProduct(code, name, price, stock, isInfinityStock, categoryId);
+            await productRepository.insertProduct(code, name, price, stock, isInfinityStock, categoryId);
             res.status(201).json({ message: 'Product created' });
         } catch (error) {
             res.status(500).send(error.message);
@@ -29,7 +29,7 @@ class InventoryController {
         const { productCode } = req.params;
         try {
             const { name, price, stock, isInfinityStock, categoryId } = req.body;
-            await productRepositoy.updateProduct(productCode, name, price, stock, isInfinityStock, categoryId);
+            await productRepository.updateProduct(productCode, name, price, stock, isInfinityStock, categoryId);
             res.status(201).json({ message: 'Product updated' });
         } catch (error) {
             res.status(500).send(error.message);
@@ -44,8 +44,25 @@ class InventoryController {
     async deleteProduct(req, res) {
         const { productCode } = req.params;
         try {
-            await productRepositoy.deleteProduct(productCode);
+            await productRepository.deleteProduct(productCode);
             res.status(200).json({ message: 'Product deleted' });
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
+    /**
+     * Increase the product's stock in determinate amount
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async increaseStockOfProduct(req, res) {
+        const { productCode } = req.params;
+        try {
+            const { units } = req.body;
+            await productRepository.increaseStock(productCode, units);
+            res.status(200).json({ message: "Product increase their stock" });
         } catch (error) {
             res.status(500).send(error.message);
         }
@@ -58,7 +75,7 @@ class InventoryController {
      */
     async getInventory(req, res) {
         try {
-            const inventory = await productRepositoy.getAllProducts();
+            const inventory = await productRepository.getAllProducts();
             res.status(200).send(JSON.stringify(inventory, null, 2));
         } catch (error) {
             res.status(500).send(error.message);
@@ -73,7 +90,7 @@ class InventoryController {
     async getProductByCode(req, res) {
         const { productCode } = req.params;
         try {
-            const product = await productRepositoy.getProductByCode(productCode);
+            const product = await productRepository.getProductByCode(productCode);
             res.status(200).send(JSON.stringify(product, null, 2));
         } catch (error) {
             res.status(500).send(error.message);
@@ -88,7 +105,7 @@ class InventoryController {
     async searchProductsByName(req, res) {
         const { productName } = req.params;
         try {
-            const product = await productRepositoy.searchProductsWithName(productName);
+            const product = await productRepository.searchProductsWithName(productName);
             res.status(200).send(JSON.stringify(product, null, 2));
         } catch (error) {
             res.status(500).send(error.message);
